@@ -12,11 +12,11 @@ end
 
 -- The name that will initially display when dragged into a design
 function GetPrettyName(props)
-  return "My First Plugin, version " .. PluginInfo.Version
+  return "UCI Pin Controller\nv" .. PluginInfo.Version
 end
 
 -- Optional function used if plugin has multiple pages
-PageNames = { "Control", "Setup" }  --List the pages within the plugin
+PageNames = { "Pin Setup", "Pin Pad" }  --List the pages within the plugin
 function GetPages(props)
   local pages = {}
   --[[ #include "pages.lua" ]]

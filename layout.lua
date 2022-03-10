@@ -1,28 +1,19 @@
 local CurrentPage = PageNames[props["page_index"].Value]
-if CurrentPage == "Control" then
-  table.insert(graphics,{
-    Type = "GroupBox",
-    Text = "Control",
-    Fill = {200,200,200},
-    StrokeWidth = 1,
-    Position = {5,5},
-    Size = {200,100}
-  })
-  table.insert(graphics,{
-    Type = "Text",
-    Text = "Say Hello:",
-    Position = {10,42},
-    Size = {90,16},
-    FontSize = 14,
-    HTextAlign = "Right"
-  })
-  layout["SendButton"] = {
-    PrettyName = "Buttons~Send The Command",
-    Style = "Button",
-    Position = {105,42},
-    Size = {50,16},
-    Color = {0,0,0}
-  }
-elseif CurrentPage == "Setup" then
-  -- TBD
+
+table.insert(graphics,{Type = "GroupBox", Fill = {220,220,220}, StrokeWidth = 1, Position = {0,0}, Size = {348,409}, CornerRadius = 8})
+table.insert(graphics,{Type = "Text", Text = "UCI Pin Controller", Position = {15,9}, Size = {234,38}, FontSize = 22,HTextAlign = "Left", IsBold = true})
+
+if CurrentPage == "Pin Setup" then
+  table.insert(graphics,{Type = "Text", Text = "UCI Pin Name:", Position = {15,63}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
+  table.insert(graphics,{Type = "Text", Text = "Touch Panel:", Position = {186,63}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
+  table.insert(graphics,{Type = "Text", Text = "UCI Pin:", Position = {15,114}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
+  table.insert(graphics,{Type = "Text", Text = "UCI:", Position = {186,114}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
+  table.insert(graphics,{Type = "Text", Text = "UCI Page:", Position = {186,165}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
+  table.insert(graphics,{Type = "Text", Text = "Pin Name:", Position = {15,253}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
+  table.insert(graphics,{Type = "Text", Text = "Pin:", Position = {186,253}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
+  table.insert(graphics,{Type = "Header",Text = "Pin Creation",HTextAlign = "Center",Font = "Roboto",FontSize = 16,Position = {0,230},Size = {348,16}})
+
+elseif CurrentPage == "Pin Pad" then
+
 end
+

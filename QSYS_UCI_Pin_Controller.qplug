@@ -1,0 +1,113 @@
+-- Basic Framework Plugin
+-- by QSC
+-- October 2020
+
+-- Information block for the plugin
+PluginInfo = {
+  Name = "My Plugins~UCI Pin Controller",
+  Version = "0.0",
+  BuildVersion = "0.0.0.0",
+  Id = "297d2ac8-8a49-40f7-b608-7f042a185039",
+  Author = "Maxx Sanner",
+  Description = "A plugin that provides a custom pinpad as well as the ability to dynamically and easily assign a pin to a UCI. "  
+}
+
+-- Define the color of the plugin object in the design
+function GetColor(props)
+  return { 102, 102, 102 }
+end
+
+-- The name that will initially display when dragged into a design
+function GetPrettyName(props)
+  return "UCI Pin Controller\nv" .. PluginInfo.Version
+end
+
+-- Optional function used if plugin has multiple pages
+PageNames = { "Pin Setup", "Pin Pad" }  --List the pages within the plugin
+function GetPages(props)
+  local pages = {}
+  for ix,name in ipairs(PageNames) do
+    table.insert(pages, {name = PageNames[ix]})
+  end
+  return pages
+end
+
+-- Optional function to define model if plugin supports more than one model
+function GetModel(props)
+  local model = {}
+ return model
+end
+
+-- Define User configurable Properties of the plugin
+function GetProperties()
+  local props = {}
+  table.insert(props, {
+    Name = "Debug Print",
+    Type = "enum",
+    Choices = {"None", "Tx/Rx", "Tx", "Rx", "Function Calls", "All"},
+    Value = "None"
+  })
+  return props
+end
+
+-- Optional function to define pins on the plugin that are not connected to a Control
+function GetPins(props)
+  local pins = {}
+  return pins
+end
+
+-- Optional function to update available properties when properties are altered by the user
+function RectifyProperties(props)
+  if props.plugin_show_debug.Value == false then 
+    props["Debug Print"].IsHidden = true 
+  end
+  return props
+end
+
+-- Optional function to define components used within the plugin
+function GetComponents(props)
+  local components = {}
+  return components
+end
+
+-- Optional function to define wiring of components used within the plugin
+function GetWiring(props)
+  local wiring = {}
+  return wiring
+end
+
+-- Defines the Controls used within the plugin
+function GetControls(props)
+  local ctrls = {}
+  return ctrls
+end
+
+--Layout of controls and graphics for the plugin UI to display
+function GetControlLayout(props)
+  local layout = {}
+  local graphics = {}
+  local CurrentPage = PageNames[props["page_index"].Value]
+  
+  table.insert(graphics,{Type = "GroupBox", Fill = {220,220,220}, StrokeWidth = 1, Position = {0,0}, Size = {348,409}, CornerRadius = 8})
+  table.insert(graphics,{Type = "Text", Text = "UCI Pin Controller", Position = {15,9}, Size = {234,38}, FontSize = 22,HTextAlign = "Left", IsBold = true})
+  
+  if CurrentPage == "Pin Setup" then
+    table.insert(graphics,{Type = "Text", Text = "UCI Pin Name:", Position = {15,63}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
+    table.insert(graphics,{Type = "Text", Text = "Touch Panel:", Position = {186,63}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
+    table.insert(graphics,{Type = "Text", Text = "UCI Pin:", Position = {15,114}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
+    table.insert(graphics,{Type = "Text", Text = "UCI:", Position = {186,114}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
+    table.insert(graphics,{Type = "Text", Text = "UCI Page:", Position = {186,165}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
+    table.insert(graphics,{Type = "Text", Text = "Pin Name:", Position = {15,253}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
+    table.insert(graphics,{Type = "Text", Text = "Pin:", Position = {186,253}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
+    table.insert(graphics,{Type = "Header",Text = "Pin Creation",HTextAlign = "Center",Font = "Roboto",FontSize = 16,Position = {0,230},Size = {348,16}})
+  
+  elseif CurrentPage == "Pin Pad" then
+  
+  end
+  
+  return layout, graphics
+end
+
+--Start event based logic
+if Controls then
+end
