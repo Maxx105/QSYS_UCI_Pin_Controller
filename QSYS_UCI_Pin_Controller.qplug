@@ -94,7 +94,7 @@ function GetControls(props)
   table.insert(ctrls, {Name = "UCIPage", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Both"})
   table.insert(ctrls, {Name = "AddPinName", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Both"})
   table.insert(ctrls, {Name = "AddPinPin", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Both"})
-  table.insert(ctrls, {Name = "Status", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Both"})
+  table.insert(ctrls, {Name = "Status", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Output"})
   table.insert(ctrls, {Name = "PinPadPin", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Both"})
   
   return ctrls
@@ -136,24 +136,9 @@ function GetControlLayout(props)
     layout["PinPadClear"] = {PrettyName = "Pin Pad~Clear", Style = "Button", Position = {261,71}, Size = {38,26}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
     layout["PinPadPin"] = {PrettyName = "Pin Pad~Pin", Style = "Text", Position = {50,100}, Size = {249,26}, FontSize = 14}
     layout["PinPadEnter"] = {PrettyName = "Pin Pad~Enter", Style = "Button", Legend = "Enter", Position = {86,305}, Size = {176,38}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}, FontSize = 14}
-  
     for i, v in ipairs(pinPadChars) do
       layout["PinPadDigits "..i] = {PrettyName = "Pin Pad~"..v, Style = "Button", Legend = v, Position = pinPadPos[i], Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}, FontSize = 14}
     end
-    -- layout["PinPadDigits 1"] = {PrettyName = "Pin Pad~1", Style = "Button", Legend = "1", Position = {454,140}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-    -- layout["PinPadDigits 2"] = {PrettyName = "Pin Pad~2", Style = "Button", Legend = "2", Position = {513,140}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-    -- layout["PinPadDigits 3"] = {PrettyName = "Pin Pad~3", Style = "Button", Legend = "3", Position = {572,140}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-    -- layout["PinPadDigits 4"] = {PrettyName = "Pin Pad~4", Style = "Button", Legend = "4", Position = {454,181}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-    -- layout["PinPadDigits 5"] = {PrettyName = "Pin Pad~5", Style = "Button", Legend = "5", Position = {513,181}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-    -- layout["PinPadDigits 6"] = {PrettyName = "Pin Pad~6", Style = "Button", Legend = "6", Position = {572,181}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-    -- layout["PinPadDigits 7"] = {PrettyName = "Pin Pad~7", Style = "Button", Legend = "7", Position = {454,223}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-    -- layout["PinPadDigits 8"] = {PrettyName = "Pin Pad~8", Style = "Button", Legend = "8", Position = {513,223}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-    -- layout["PinPadDigits 9"] = {PrettyName = "Pin Pad~9", Style = "Button", Legend = "9", Position = {572,223}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-    -- layout["PinPadDigits 10"] = {PrettyName = "Pin Pad~*", Style = "Button", Legend = "*", Position = {454,264}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-    -- layout["PinPadDigits 11"] = {PrettyName = "Pin Pad~0", Style = "Button", Legend = "0", Position = {513,264}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-    -- layout["PinPadDigits 12"] = {PrettyName = "Pin Pad~#", Style = "Button", Legend = "#", Position = {572,264}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-  
-  
   end
   
   return layout, graphics
@@ -161,4 +146,250 @@ end
 
 --Start event based logic
 if Controls then
+  json = require("rapidjson")
+  
+  local UCIPinName = Controls.UCIPinName
+  local UCIPin = Controls.UCIPin
+  local TouchPanel = Controls.TouchPanel
+  local UCI = Controls.UCI
+  local UCIPage = Controls.UCIPage
+  local PinPadPin = Controls.PinPadPin
+  local PinPadDigits = Controls.PinPadDigits
+  local PinPadEnter = Controls.PinPadEnter
+  local PinPadBackspace = Controls.PinPadBackspace
+  local PinPadClear = Controls.PinPadClear
+  local AddPinName = Controls.AddPinName
+  local AddPinPin = Controls.AddPinPin
+  local AddPinSubmit = Controls.AddPinSubmit
+  local Status = Controls.Status
+  
+  local Digits = {"1","2","3","4","5","6","7","8","9","0","*","#"}
+  local PinData = {}
+  local UCIData = {}
+  PollDataTimer = Timer.New()
+  InitTimer = Timer.New()
+  InitTimer:Start(5)
+  
+  
+  -- Pin Pad functions
+  --===========================
+  function ClearPinString()
+    PinPadPin.String = ""
+  end
+  
+  function Backspace()
+    PinPadPin.String = string.sub(PinPadPin.String, 1, -2)
+  end
+  
+  function SubmitPin()
+    if UCIPin.String == PinPadPin.String then
+      Uci.SetPage(TouchPanel.String, UCIPage.String)
+      PinPadPin.String = ""
+    else
+      PinPadPin.String = "Incorrect Pin!"
+    end
+  end
+  --===========================
+  
+  
+  -- utility functions
+  --===========================
+  function GetIndexInTable(tbl, val)
+    local index={}
+    for k,v in pairs(tbl) do
+      index[v]=k
+    end
+    return index[val]
+  end
+  
+  function checkIfTblValExists(tbl, val)
+    for i, v in pairs(tbl) do 
+      if v == val then 
+        return true
+      end
+    end
+    return false
+  end
+  --===========================
+  
+  
+  -- Pin functions
+  --===========================
+  function SetPin()
+    local tblLength = #UCIPinName.Choices
+    if checkIfTblValExists(UCIPinName.Choices, UCIPinName.String) == true then
+      local index = GetIndexInTable(UCIPinName.Choices, UCIPinName.String)
+      UCIPin.String = PinData[index].pin
+      else 
+        UCIPinName.String = UCIPinName.Choices[tblLength]
+        UCIPin.String = PinData[tblLength].pin
+    end
+  end
+  
+  function AddPin()
+    if AddPinName.String ~= "" and AddPinPin.String ~= "" then
+      postPinData(json.encode({{
+        name = AddPinName.String,
+        pin =  AddPinPin.String
+      }}))
+      else 
+        Status.String = "Please Enter a Pin Name and Pin"
+    end
+  end
+  
+  function SetPinNamesTbl(data)
+    local PinNamesTbl = {}
+    for i, v in ipairs(data) do 
+      table.insert(PinNamesTbl, v.name)
+    end
+    UCIPinName.Choices = PinNamesTbl
+  end
+  --===========================
+  
+  
+  -- Status functions
+  --===========================
+  function ClearStatus()
+    Status.String = ""
+  end
+  
+  function SetStatus(code, d)
+    if code == math.floor(204) then 
+      Status.String = "Successfully Added Pin!"
+      else  
+        Status.String = json.decode(d).code..": "..json.decode(d).message
+    end
+  end
+  --===========================
+  
+  
+  -- Touch Panel and UCI Info functions
+  --===========================
+  function getTouchPanels()
+    local myInventory = Design.GetInventory()
+    local touchScreens = {}
+    for i, v in ipairs(myInventory) do 
+      if v.Type == "Touch Screen" or v.Model == "UCI Viewer" then 
+        table.insert(touchScreens, v.Name)
+      end
+    end
+    TouchPanel.Choices = touchScreens 
+  end
+  
+  function SetUCINamesTbl(data)
+    local UCINamesTbl = {}
+    for i, v in ipairs(data) do 
+      table.insert(UCINamesTbl, v.Name)
+    end
+    UCI.Choices = UCINamesTbl
+  end
+  
+  function SetUCIPage(data)
+    local uciPageNames = {}
+    for i, uci in ipairs(data) do
+      if UCI.String == uci.Name then
+        for j, page in ipairs(uci.Pages) do
+          table.insert(uciPageNames, page.Name)
+        end
+      end
+    end
+    UCIPage.Choices = uciPageNames
+  end
+  --===========================
+  
+  
+  -- HTTP functions
+  --===========================
+  function handlePinGet(tbl, code, d, e) 
+    PinData = json.decode(d).items
+    SetPinNamesTbl(PinData)
+    SetPin()
+  end
+  
+  function getPinData() 
+    HttpClient.Download { 
+      Url = "http://127.0.0.1/api/v0/systems/1/ucis/pins", 
+      Headers = { ["Content-Type"] = "application/json" } , 
+      Timeout = 5, 
+      EventHandler = handlePinGet
+    }
+  end
+  
+  function handlePinPost(tbl, code, d, e)
+    print(string.format("Response Code for POST: %i\t\tErrors: %s\rData: %s",code, e or "None", d))
+    SetStatus(code, d)
+    getPinData()
+  end
+  
+  function postPinData(data) 
+    AddPinName.String = ""
+    AddPinPin.String = ""
+    HttpClient.Upload { 
+      Url = "http://127.0.0.1/api/v0/systems/1/ucis/pins", 
+      Method = "POST",
+      Headers = { 
+        ["Content-Type"] = "application/json"
+      }, 
+      Timeout = 5, 
+      Data = data,
+      EventHandler = handlePinPost
+    }
+  end
+  
+  function handleUCIGet(tbl, code, d, e)
+    UCIData = json.decode(d).Ucis
+    SetUCINamesTbl(UCIData)
+    SetUCIPage(UCIData)
+  end
+  
+  function getUCIData() 
+    HttpClient.Download { 
+      Url = "http://127.0.0.1/designs/current_design/ucis.json", 
+      Headers = { ["Content-Type"] = "application/json" } , 
+      Timeout = 5, 
+      EventHandler = handleUCIGet
+    }
+  end
+  --===========================
+  
+  
+  -- Initializing function
+  --===========================
+  function Init()
+    getPinData() 
+    getTouchPanels()
+    getUCIData()
+    ClearStatus()
+    PollDataTimer:Start(1)
+    InitTimer:Stop()
+  end
+  --===========================
+  
+  
+  --Event Handlers
+  --================================
+  PinPadClear.EventHandler = ClearPinString
+  PinPadBackspace.EventHandler = Backspace
+  PinPadEnter.EventHandler = SubmitPin
+  UCIPinName.EventHandler = SetPin
+  AddPinSubmit.EventHandler = AddPin
+  UCI.EventHandler = function()
+    getUCIData()
+    UCIPage.String = ""
+  end
+  
+  for i, dig in ipairs(Digits) do
+    PinPadDigits[i].EventHandler = function()
+      if PinPadPin.String == "Incorrect Pin!" then
+        PinPadPin.String = ''
+        PinPadPin.String = PinPadPin.String..dig
+      else
+        PinPadPin.String = PinPadPin.String..dig
+      end
+    end
+  end
+  
+  PollDataTimer.EventHandler = getPinData
+  InitTimer.EventHandler = Init
+  --===========================
 end

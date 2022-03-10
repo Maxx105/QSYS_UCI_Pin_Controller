@@ -13,6 +13,6 @@ table.insert(ctrls, {Name = "UCI", ControlType = "Text", Count = 1, UserPin = tr
 table.insert(ctrls, {Name = "UCIPage", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Both"})
 table.insert(ctrls, {Name = "AddPinName", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Both"})
 table.insert(ctrls, {Name = "AddPinPin", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Both"})
-table.insert(ctrls, {Name = "Status", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Both"})
+table.insert(ctrls, {Name = "Status", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Output"})
 table.insert(ctrls, {Name = "PinPadPin", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Both"})
 

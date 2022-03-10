@@ -30,23 +30,8 @@ elseif CurrentPage == "Pin Pad" then
   layout["PinPadClear"] = {PrettyName = "Pin Pad~Clear", Style = "Button", Position = {261,71}, Size = {38,26}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
   layout["PinPadPin"] = {PrettyName = "Pin Pad~Pin", Style = "Text", Position = {50,100}, Size = {249,26}, FontSize = 14}
   layout["PinPadEnter"] = {PrettyName = "Pin Pad~Enter", Style = "Button", Legend = "Enter", Position = {86,305}, Size = {176,38}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}, FontSize = 14}
-
   for i, v in ipairs(pinPadChars) do
     layout["PinPadDigits "..i] = {PrettyName = "Pin Pad~"..v, Style = "Button", Legend = v, Position = pinPadPos[i], Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}, FontSize = 14}
   end
-  -- layout["PinPadDigits 1"] = {PrettyName = "Pin Pad~1", Style = "Button", Legend = "1", Position = {454,140}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-  -- layout["PinPadDigits 2"] = {PrettyName = "Pin Pad~2", Style = "Button", Legend = "2", Position = {513,140}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-  -- layout["PinPadDigits 3"] = {PrettyName = "Pin Pad~3", Style = "Button", Legend = "3", Position = {572,140}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-  -- layout["PinPadDigits 4"] = {PrettyName = "Pin Pad~4", Style = "Button", Legend = "4", Position = {454,181}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-  -- layout["PinPadDigits 5"] = {PrettyName = "Pin Pad~5", Style = "Button", Legend = "5", Position = {513,181}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-  -- layout["PinPadDigits 6"] = {PrettyName = "Pin Pad~6", Style = "Button", Legend = "6", Position = {572,181}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-  -- layout["PinPadDigits 7"] = {PrettyName = "Pin Pad~7", Style = "Button", Legend = "7", Position = {454,223}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-  -- layout["PinPadDigits 8"] = {PrettyName = "Pin Pad~8", Style = "Button", Legend = "8", Position = {513,223}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-  -- layout["PinPadDigits 9"] = {PrettyName = "Pin Pad~9", Style = "Button", Legend = "9", Position = {572,223}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-  -- layout["PinPadDigits 10"] = {PrettyName = "Pin Pad~*", Style = "Button", Legend = "*", Position = {454,264}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-  -- layout["PinPadDigits 11"] = {PrettyName = "Pin Pad~0", Style = "Button", Legend = "0", Position = {513,264}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-  -- layout["PinPadDigits 12"] = {PrettyName = "Pin Pad~#", Style = "Button", Legend = "#", Position = {572,264}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
-
-
 end
 
