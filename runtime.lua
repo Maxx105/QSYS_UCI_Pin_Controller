@@ -15,7 +15,7 @@ local AddPinPin = Controls.AddPinPin
 local AddPinSubmit = Controls.AddPinSubmit
 local Status = Controls.Status
 
-local Digits = {"1","2","3","4","5","6","7","8","9","0","*","#"}
+local Digits = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#"}
 local PinData = {}
 local UCIData = {}
 PollDataTimer = Timer.New()
