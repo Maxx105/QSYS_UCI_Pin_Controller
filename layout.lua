@@ -1,4 +1,6 @@
 local CurrentPage = PageNames[props["page_index"].Value]
+local pinPadChars = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#"}
+local pinPadPos = {{86,140},{145,140},{204,140},{86,181},{145,181},{204,181},{86,223},{145,223},{204,223},{86,264},{145,264},{204,264}}
 
 table.insert(graphics,{Type = "GroupBox", Fill = {220,220,220}, StrokeWidth = 1, Position = {0,0}, Size = {348,409}, CornerRadius = 8})
 table.insert(graphics,{Type = "Text", Text = "UCI Pin Controller", Position = {15,9}, Size = {234,38}, FontSize = 22,HTextAlign = "Left", IsBold = true})
@@ -13,7 +15,38 @@ if CurrentPage == "Pin Setup" then
   table.insert(graphics,{Type = "Text", Text = "Pin:", Position = {186,253}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
   table.insert(graphics,{Type = "Header",Text = "Pin Creation",HTextAlign = "Center",Font = "Roboto",FontSize = 16,Position = {0,230},Size = {348,16}})
 
+  layout["UCIPinName"] = {PrettyName = "Setup~UCI Pin Name", Style = "ComboBox", Position = {15,86}, Size = {148,28}, FontSize = 14}
+  layout["TouchPanel"] = {PrettyName = "Setup~Touch Panel", Style = "ComboBox", Position = {186,86}, Size = {148,28}, FontSize = 14}
+  layout["UCIPin"] = {PrettyName = "Setup~UCI Pin", Style = "Text", IsReadyOnly = true, Position = {15,137}, Size = {148,28}, Color={194,194,194}, FontSize = 14}
+  layout["UCI"] = {PrettyName = "Setup~UCI", Style = "ComboBox", Position = {186,137}, Size = {148,28}, FontSize = 14}
+  layout["UCIPage"] = {PrettyName = "Setup~UCI Page", Style = "ComboBox", Position = {186,188}, Size = {148,28}, FontSize = 14}
+  layout["AddPinName"] = {PrettyName = "Add Pin~Name", Style = "Text", Position = {15,276}, Size = {148,28}, FontSize = 14}
+  layout["AddPinPin"] = {PrettyName = "Add Pin~Pin", Style = "Text", Position = {186,276}, Size = {148,28}, FontSize = 14}
+  layout["AddPinSubmit"] = {PrettyName = "Add Pin~Submit", Style = "Button", Position = {15,311}, Size = {319,29}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
+  layout["Status"] = {PrettyName = "Status", Style = "Text", IsReadyOnly = true, Position = {15,358}, Size = {319,30}, Color={194,194,194}, FontSize = 14}
+
 elseif CurrentPage == "Pin Pad" then
+  layout["PinPadBackspace"] = {PrettyName = "Pin Pad~Backspace", Style = "Button", Position = {223,71}, Size = {38,26}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
+  layout["PinPadClear"] = {PrettyName = "Pin Pad~Clear", Style = "Button", Position = {261,71}, Size = {38,26}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
+  layout["PinPadPin"] = {PrettyName = "Pin Pad~Pin", Style = "Text", Position = {50,100}, Size = {249,26}, FontSize = 14}
+  layout["PinPadEnter"] = {PrettyName = "Pin Pad~Enter", Style = "Button", Legend = "Enter", Position = {86,305}, Size = {176,38}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}, FontSize = 14}
+
+  for i, v in ipairs(pinPadChars) do
+    layout["PinPadDigits "..i] = {PrettyName = "Pin Pad~"..v, Style = "Button", Legend = v, Position = pinPadPos[i], Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}, FontSize = 14}
+  end
+  -- layout["PinPadDigits 1"] = {PrettyName = "Pin Pad~1", Style = "Button", Legend = "1", Position = {454,140}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
+  -- layout["PinPadDigits 2"] = {PrettyName = "Pin Pad~2", Style = "Button", Legend = "2", Position = {513,140}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
+  -- layout["PinPadDigits 3"] = {PrettyName = "Pin Pad~3", Style = "Button", Legend = "3", Position = {572,140}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
+  -- layout["PinPadDigits 4"] = {PrettyName = "Pin Pad~4", Style = "Button", Legend = "4", Position = {454,181}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
+  -- layout["PinPadDigits 5"] = {PrettyName = "Pin Pad~5", Style = "Button", Legend = "5", Position = {513,181}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
+  -- layout["PinPadDigits 6"] = {PrettyName = "Pin Pad~6", Style = "Button", Legend = "6", Position = {572,181}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
+  -- layout["PinPadDigits 7"] = {PrettyName = "Pin Pad~7", Style = "Button", Legend = "7", Position = {454,223}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
+  -- layout["PinPadDigits 8"] = {PrettyName = "Pin Pad~8", Style = "Button", Legend = "8", Position = {513,223}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
+  -- layout["PinPadDigits 9"] = {PrettyName = "Pin Pad~9", Style = "Button", Legend = "9", Position = {572,223}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
+  -- layout["PinPadDigits 10"] = {PrettyName = "Pin Pad~*", Style = "Button", Legend = "*", Position = {454,264}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
+  -- layout["PinPadDigits 11"] = {PrettyName = "Pin Pad~0", Style = "Button", Legend = "0", Position = {513,264}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
+  -- layout["PinPadDigits 12"] = {PrettyName = "Pin Pad~#", Style = "Button", Legend = "#", Position = {572,264}, Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}}
+
 
 end
 
