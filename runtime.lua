@@ -1,5 +1,6 @@
 json = require("rapidjson")
 
+-- Controls Aliases
 local UCIPinName = Controls.UCIPinName
 local UCIPin = Controls.UCIPin
 local TouchPanel = Controls.TouchPanel
@@ -17,16 +18,19 @@ local Status = Controls.Status
 local CoreUsername = Controls.CoreUsername
 local CorePassword = Controls.CorePassword
 
-local Digits = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#"}
-local PinData = {}
-local UCIData = {}
+-- Variables
 local BearerToken = ""
+
+-- Timers, tables, and constants
 PollDataTimer = Timer.New()
 InitTimer = Timer.New()
 StatusClearTimer = Timer.New()
 InitTimer:Start(5)
+local Digits = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#"}
+local PinData = {}
+local UCIData = {}
 
-
+-- ***Helper functions***
 -- Pin Pad functions
 --===========================
 function ClearPinString()
@@ -154,6 +158,11 @@ function SetUCIPage(data)
   end
   UCIPage.Choices = uciPageNames
 end
+
+function GetUCIDataAndClear()
+  getUCIData()
+  UCIPage.String = ""
+end
 --===========================
 
 
@@ -269,10 +278,7 @@ PinPadBackspace.EventHandler = Backspace
 PinPadEnter.EventHandler = SubmitPin
 UCIPinName.EventHandler = SetPin
 AddPinSubmit.EventHandler = AddPin
-UCI.EventHandler = function()
-  getUCIData()
-  UCIPage.String = ""
-end
+UCI.EventHandler = GetUCIDataAndClear
 
 for i, dig in ipairs(Digits) do
   PinPadDigits[i].EventHandler = function()

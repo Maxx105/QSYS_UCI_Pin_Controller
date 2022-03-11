@@ -1,6 +1,6 @@
--- Basic Framework Plugin
--- by QSC
--- October 2020
+-- UCI Pin Controller
+-- by Maxx Sanner
+-- March 2022
 
 -- Information block for the plugin
 --[[ #include "info.lua" ]]

@@ -22,6 +22,7 @@ This plugin uses the following Q-SYS extensions to Lua:
 * HTTPClient - This is used to post and get pin information to and from the Core. It is also used to get UCI information as well as to login to the Core if Access Management is enabled.
 * RapidJSON - This is used to receive and send data as JSON.
 * Design.GetInvetory() - This is used to retrieve the names of the touch panels and UCI Viewers in the current design.
+* Uci - This is used to set the page of the UCI when the correct pin is entered.
 
 ## Badges 
  ![languages badge](https://img.shields.io/github/languages/count/maxx105/QSYS_UCI_Pin_Controller)

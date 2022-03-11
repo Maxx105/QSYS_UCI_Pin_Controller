@@ -1,11 +1,11 @@
 -- UCI Pin Controller
--- by QSC
+-- by Maxx Sanner
 -- March 2022
 
 -- Information block for the plugin
 PluginInfo = {
   Name = "My Plugins~UCI Pin Controller",
-  Version = "1.0",
+  Version = "1.1",
   BuildVersion = "0.0.0.0",
   Id = "297d2ac8-8a49-40f7-b608-7f042a185039",
   Author = "Maxx Sanner",
@@ -154,6 +154,7 @@ end
 if Controls then
   json = require("rapidjson")
   
+  -- Controls Aliases
   local UCIPinName = Controls.UCIPinName
   local UCIPin = Controls.UCIPin
   local TouchPanel = Controls.TouchPanel
@@ -171,16 +172,19 @@ if Controls then
   local CoreUsername = Controls.CoreUsername
   local CorePassword = Controls.CorePassword
   
-  local Digits = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#"}
-  local PinData = {}
-  local UCIData = {}
+  -- Variables
   local BearerToken = ""
+  
+  -- Timers, tables, and constants
   PollDataTimer = Timer.New()
   InitTimer = Timer.New()
   StatusClearTimer = Timer.New()
   InitTimer:Start(5)
+  local Digits = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#"}
+  local PinData = {}
+  local UCIData = {}
   
-  
+  -- ***Helper functions***
   -- Pin Pad functions
   --===========================
   function ClearPinString()
@@ -308,6 +312,11 @@ if Controls then
     end
     UCIPage.Choices = uciPageNames
   end
+  
+  function GetUCIDataAndClear()
+    getUCIData()
+    UCIPage.String = ""
+  end
   --===========================
   
   
@@ -423,10 +432,7 @@ if Controls then
   PinPadEnter.EventHandler = SubmitPin
   UCIPinName.EventHandler = SetPin
   AddPinSubmit.EventHandler = AddPin
-  UCI.EventHandler = function()
-    getUCIData()
-    UCIPage.String = ""
-  end
+  UCI.EventHandler = GetUCIDataAndClear
   
   for i, dig in ipairs(Digits) do
     PinPadDigits[i].EventHandler = function()
