@@ -15,4 +15,6 @@ table.insert(ctrls, {Name = "AddPinName", ControlType = "Text", Count = 1, UserP
 table.insert(ctrls, {Name = "AddPinPin", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Both"})
 table.insert(ctrls, {Name = "Status", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Output"})
 table.insert(ctrls, {Name = "PinPadPin", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Both"})
+table.insert(ctrls, {Name = "CoreUsername", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Both"})
+table.insert(ctrls, {Name = "CorePassword", ControlType = "Text", Count = 1, UserPin = true, PinStyle = "Both"})
 

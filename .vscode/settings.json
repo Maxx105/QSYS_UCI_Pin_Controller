@@ -8,7 +8,7 @@
   "files.associations": {
     "*.json": "jsonc"
   },
-  "files.autoSave": "off",
+  "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 500,
   "editor.tabSize": 2
 }
