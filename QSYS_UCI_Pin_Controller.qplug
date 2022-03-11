@@ -1,6 +1,6 @@
--- Basic Framework Plugin
+-- UCI Pin Controller
 -- by QSC
--- October 2020
+-- March 2022
 
 -- Information block for the plugin
 PluginInfo = {
