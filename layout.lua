@@ -1,6 +1,23 @@
 local CurrentPage = PageNames[props["page_index"].Value]
 local pinPadChars = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#"}
-local pinPadPos = {{86,140},{145,140},{204,140},{86,181},{145,181},{204,181},{86,223},{145,223},{204,223},{86,264},{145,264},{204,264}}
+
+-- Starting coordinates of top left pin pad button.
+local ColOne = 86
+local RowOne = 140
+
+-- Space between colums and rows on pin pad.
+local ColSpacing = 59
+local RowSpacing = 41
+
+function PinPadPositions()
+  local PosTbl = {}
+  for i = 1, 4 do 
+    for j = 1, 3 do 
+      table.insert(PosTbl, {ColOne + ColSpacing*(j-1), RowOne + RowSpacing*(i-1)})
+    end
+  end
+  return PosTbl
+end
 
 table.insert(graphics,{Type = "GroupBox", Fill = {220,220,220}, StrokeWidth = 1, Position = {0,0}, Size = {348,409}, CornerRadius = 8})
 table.insert(graphics,{Type = "Text", Text = "UCI Pin Controller", Position = {15,9}, Size = {234,38}, FontSize = 22,HTextAlign = "Left", IsBold = true})
@@ -35,7 +52,7 @@ elseif CurrentPage == "Pin Pad" then
   layout["PinPadPin"] = {PrettyName = "Pin Pad~Pin", Style = "Text", Position = {50,100}, Size = {249,26}, FontSize = 14}
   layout["PinPadEnter"] = {PrettyName = "Pin Pad~Enter", Style = "Button", Legend = "Enter", Position = {86,305}, Size = {176,38}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}, FontSize = 14}
   for i, v in ipairs(pinPadChars) do
-    layout["PinPadDigits "..i] = {PrettyName = "Pin Pad~"..v, Style = "Button", Legend = v, Position = pinPadPos[i], Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}, FontSize = 14}
+    layout["PinPadDigits "..i] = {PrettyName = "Pin Pad~"..v, Style = "Button", Legend = v, Position = PinPadPositions()[i], Size = {58,40}, Color = {255,255,255}, UnlinkOffColor = true, OffColor = {124,124,124}, FontSize = 14}
   end
 end
 
