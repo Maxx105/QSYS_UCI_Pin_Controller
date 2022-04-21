@@ -21,10 +21,10 @@ end
 
 table.insert(graphics,{Type = "GroupBox", Fill = {220,220,220}, StrokeWidth = 1, Position = {0,0}, Size = {348,409}, CornerRadius = 8})
 table.insert(graphics,{Type = "GroupBox", StrokeWidth = 1, Position = {200,5}, Size = {144,59}, CornerRadius = 8})
-table.insert(graphics,{Type = "Text", Text = "UCI Pin Controller", Position = {15,9}, Size = {234,38}, FontSize = 22,HTextAlign = "Left", IsBold = true})
+table.insert(graphics,{Type = "Text", Text = "UCI Pin Controller", Position = {15,9}, Size = {185,38}, FontSize = 22,HTextAlign = "Left", IsBold = true})
 
 if CurrentPage == "Pin Setup" then
-  table.insert(graphics,{Type = "Text", Text = "UCI Pin Name:", Position = {15,63}, Size = {185,38}, FontSize = 14,HTextAlign = "Left", IsBold = true})
+  table.insert(graphics,{Type = "Text", Text = "UCI Pin Name:", Position = {15,63}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
   table.insert(graphics,{Type = "Text", Text = "Touch Panel:", Position = {186,63}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
   table.insert(graphics,{Type = "Text", Text = "UCI Pin:", Position = {15,114}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
   table.insert(graphics,{Type = "Text", Text = "UCI:", Position = {186,114}, Size = {148,23}, FontSize = 14,HTextAlign = "Left", IsBold = true})
